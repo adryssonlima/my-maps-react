@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 
-export default class Option extends Component {
-
-    render () {
+export default Option = () => {
         return (
-            <option disabled={this.props.disabled}> { this.props.text } </option>
+            <option disabled={this.props.disabled} onClick={this.props._sendData}> { this.props.text } </option>
         );
-    }
  }

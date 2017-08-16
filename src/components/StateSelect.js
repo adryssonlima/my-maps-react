@@ -13,11 +13,9 @@ export default class StateSelect extends Component {
             value : 'label',
             estados : []
         };
-
-        this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         this.setState({value: event.target.value});
     }
 
@@ -29,13 +27,18 @@ export default class StateSelect extends Component {
             return res.json();
         }).then( (data) => {
             callback(data.geonames);
-        });
+        })
+        .catch(error => console.log(error));
     }
 
     componentWillMount() {
         this.reqEstados((estados) => {
             this.setState( { estados : estados } );
         });
+    }
+
+    sendData = () => {
+        
     }
 
     render () {
@@ -47,7 +50,7 @@ export default class StateSelect extends Component {
                 { console.log(this.state.estados) }
 
                 { this.state.estados.map( (obj) => {
-                    return <Option key={obj.geonameId} value={obj.geonameId} lat={obj.lat} lng={obj.lng} fcode={obj.fcode} text={obj.name} />
+                    return <Option key={obj.geonameId} value={obj.geonameId} sendToApi={{latitude: obj.lat, longitude: obj.lng, fcode: obj.fcode}} text={obj.name} />
                    //return <option key={obj.geonameId} value={obj.geonameId} lat={obj.lat} lng={obj.lng} fcode={obj.fcode}> {obj.name} </option>;
                 }) }
 
