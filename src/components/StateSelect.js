@@ -10,48 +10,70 @@ export default class StateSelect extends Component {
         this.geonameId = 3469034; //referência geografica do BRASIL
 
         this.state = {
-            value : 'label',
-            estados : []
+            value: 'label',
+            estados: [],
+            cidades: []
         };
-
-        this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange(event) {
-        this.setState({value: event.target.value});
+    handleChange = (event) => {
+        // console.log(event.target.value)
+        let geonameId = event.target.value;
+        this.reqCidades(geonameId, (cidades) => {
+            this.setState({ cidades });
+        });
     }
 
-    reqEstados(callback) {
+    reqEstados = (callback) => {
 
-        fetch("http://www.geonames.org/childrenJSON?geonameId="+this.geonameId, {
+        fetch("http://www.geonames.org/childrenJSON?geonameId=" + this.geonameId, {
             method: "POST"
-        }).then( (res) => {
+        }).then((res) => {
             return res.json();
-        }).then( (data) => {
+        }).then((data) => {
+            callback(data.geonames);
+        });
+    }
+
+    reqCidades = (geonameId, callback) => {
+        
+        fetch("http://www.geonames.org/childrenJSON?geonameId=" + geonameId, {
+            method: "POST"
+        }).then((res) => {
+            return res.json();
+        }).then((data) => {
             callback(data.geonames);
         });
     }
 
     componentWillMount() {
         this.reqEstados((estados) => {
-            this.setState( { estados : estados } );
+            this.setState({ estados: estados });
         });
     }
 
-    render () {
+    render() {
         return (
-            <FormControl componentClass="select" value={this.state.value} onChange={this.handleChange}>
-                <Option disabled="disabled" value="label" text="Selecione um Estado" />
-                { console.log(this.state.value) /*<option disabled="disabled" value="label">Selecione um Estado</option> */ }
-                
-                { console.log(this.state.estados) }
+            <div>
+                <FormControl componentClass="select" value={this.state.value} onChange={this.handleChange}>
+                    <option disabled>Selecione um Estado</option>
 
-                { this.state.estados.map( (obj) => {
-                    return <Option key={obj.geonameId} value={obj.geonameId} lat={obj.lat} lng={obj.lng} fcode={obj.fcode} text={obj.name} />
-                   //return <option key={obj.geonameId} value={obj.geonameId} lat={obj.lat} lng={obj.lng} fcode={obj.fcode}> {obj.name} </option>;
-                }) }
+                    {this.state.estados.map((obj, key) => {
+                        console.log(obj)
+                        return <option key={key} value={obj.geonameId}>{obj.name}</option>
+                    })}
 
-            </FormControl>
+                </FormControl>
+
+                {this.state.cidades.length > 0 && <FormControl componentClass="select" value={this.state.value} onChange={this.handleChange}>
+
+                    {this.state.cidades.map((obj, key) => {
+                        console.log(obj)
+                        return <option key={key} value={obj.geonameId}>{obj.name}</option>
+                    })}
+
+                </FormControl>}
+            </div>
         );
     }
 

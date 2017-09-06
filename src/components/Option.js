@@ -1,10 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-export default class Option extends Component {
+// export default class Option extends Component {
 
-    render () {
-        return (
-            <option disabled={this.props.disabled}> { this.props.text } </option>
-        );
-    }
- }
+//     constructor(props) {
+//         super(props);
+
+//         this.state = {
+
+//         };
+//     }
+    
+//     render () {
+//         return (
+//             <option> { this.props.text } </option>
+//         );
+//     }
+//  }
+
+ const Option = ({ geonameId, lat, lng, fcode, name }) => <option> { name } </option>
+
+ export default Option
