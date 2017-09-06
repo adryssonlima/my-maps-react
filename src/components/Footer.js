@@ -14,8 +14,10 @@ export default class Footer extends Component {
 
     render () {
         return (
-            <div className="container">
-                <p className="pull-left"> &copy; { this.state.author } { this.state.year } </p>
+            <div className="footer">
+                <div className="container">
+                    <p className="pull-left"> &copy; { this.state.author } { this.state.year } </p>
+                </div>
             </div>
         );
     }

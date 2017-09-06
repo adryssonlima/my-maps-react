@@ -42,7 +42,7 @@ export default class StateSelect extends Component {
         return (
             <FormControl componentClass="select" value={this.state.value} onChange={this.handleChange}>
                 <Option disabled="disabled" value="label" text="Selecione um Estado" />
-                {console.log(this.state.value) /*<option disabled="disabled" value="label">Selecione um Estado</option> */}
+                { console.log(this.state.value) /*<option disabled="disabled" value="label">Selecione um Estado</option> */ }
                 
                 { console.log(this.state.estados) }
 

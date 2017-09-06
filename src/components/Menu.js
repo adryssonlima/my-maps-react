@@ -8,26 +8,28 @@ export default class Menu extends Component {
 
     render () {
         return (
-            <Navbar inverse collapseOnSelect>
-                <Navbar.Header>
-                <Navbar.Brand>
-                    <a href="#">My Maps</a>
-                </Navbar.Brand>
-                <Navbar.Toggle />
-                </Navbar.Header>
-                <Navbar.Collapse>
+            <div className="menu">
+                <Navbar inverse collapseOnSelect>
+                    <Navbar.Header>
+                    <Navbar.Brand>
+                        <a href="#">My Maps</a>
+                    </Navbar.Brand>
+                    <Navbar.Toggle />
+                    </Navbar.Header>
+                    <Navbar.Collapse>
 
-                <Nav>
-                    <NavItem><StateSelect /></NavItem>
-                </Nav>
+                    <Nav>
+                        <NavItem><StateSelect /></NavItem>
+                    </Nav>
 
-                <Nav pullRight>
-                    <NavItem href="http://github.com/adryssonlima">Github</NavItem>
-                    <NavItem href="http://adryssonlima.github.io">Desenvolvedor</NavItem>
-                </Nav>
+                    <Nav pullRight>
+                        <NavItem href="http://github.com/adryssonlima">Github</NavItem>
+                        <NavItem href="http://adryssonlima.github.io">Desenvolvedor</NavItem>
+                    </Nav>
 
-                </Navbar.Collapse>
-            </Navbar>
+                    </Navbar.Collapse>
+                </Navbar>
+            </div>
         );
     }
 
