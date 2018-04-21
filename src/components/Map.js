@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 export default class Map extends Component {
     
-    constructor(props) {
-        super(props);
+    constructor() {
+        super()
 
         this.state = {
             
@@ -18,9 +18,9 @@ export default class Map extends Component {
     render () {
         return (
             <div className="map">
-                
+                aqui ficará o mapa
             </div>
-        );
+        )
     }
 
 }

@@ -1,80 +1,68 @@
-import React, { Component } from 'react';
-import { FormControl } from 'react-bootstrap';
-import Option from './Option';
+import React, { Component } from 'react'
+import CitySelect from './CitySelect'
 
 export default class StateSelect extends Component {
 
-    constructor(props) {
-        super(props);
-
-        this.geonameId = 3469034; //referência geografica do BRASIL
+    constructor() {
+        super()
 
         this.state = {
             value: 'label',
+            geonameIdBR: 3469034, //referência geografica do BRASIL
             estados: [],
-            cidades: []
-        };
+            geonameIdStateNew: '',
+            geonameIdStateOld: ''
+        }
     }
 
-    handleChange = (event) => {
-        // console.log(event.target.value)
-        let geonameId = event.target.value;
-        this.reqCidades(geonameId, (cidades) => {
-            this.setState({ cidades });
-        });
+    handleChange = event => {
+        let geonameIdStateNew = event.target.value
+        let geonameIdStateOld = this.state.geonameIdStateNew
+        this.setState({ geonameIdStateNew, geonameIdStateOld })
     }
 
-    reqEstados = (callback) => {
+    reqEstados = _ => {
+        this.fetchAPI(this.state.geonameIdBR, estados => {
+            this.setState({ estados })
+        })
+    }
 
-        fetch("http://www.geonames.org/childrenJSON?geonameId=" + this.geonameId, {
+    componentWillMount = _ => this.reqEstados()
+
+    fetchAPI = (param, callback) => {
+        fetch(`http://www.geonames.org/childrenJSON?geonameId=${param}`, {
             method: "POST"
-        }).then((res) => {
-            return res.json();
-        }).then((data) => {
-            callback(data.geonames);
-        });
-    }
-
-    reqCidades = (geonameId, callback) => {
-        
-        fetch("http://www.geonames.org/childrenJSON?geonameId=" + geonameId, {
-            method: "POST"
-        }).then((res) => {
-            return res.json();
-        }).then((data) => {
-            callback(data.geonames);
-        });
-    }
-
-    componentWillMount() {
-        this.reqEstados((estados) => {
-            this.setState({ estados: estados });
-        });
+        }).then(res => {
+            return res.json()
+        }).then(data => {
+            callback(data.geonames)
+        })
     }
 
     render() {
+
+        const estados = this.state.estados
+        const geonameIdStateNew = this.state.geonameIdStateNew
+        const geonameIdStateOld = this.state.geonameIdStateOld
+
         return (
+
             <div>
-                <FormControl componentClass="select" value={this.state.value} onChange={this.handleChange}>
-                    <option disabled>Selecione um Estado</option>
-
-                    {this.state.estados.map((obj, key) => {
-                        console.log(obj)
-                        return <option key={key} value={obj.geonameId}>{obj.name}</option>
-                    })}
-
-                </FormControl>
-
-                {this.state.cidades.length > 0 && <FormControl componentClass="select" value={this.state.value} onChange={this.handleChange}>
-
-                    {this.state.cidades.map((obj, key) => {
-                        console.log(obj)
-                        return <option key={key} value={obj.geonameId}>{obj.name}</option>
-                    })}
-
-                </FormControl>}
+                <form className="form-inline">
+                    <div className="form-group">
+                        <select className="form-control" onChange={ this.handleChange }>
+                            { estados.map(obj => {
+                                return <option key={ obj.geonameId } value={ obj.geonameId }>{ obj.name }</option>
+                            }) }
+                        </select>
+                    </div>
+                    <div className="form-group mx-sm-3">
+                        { geonameIdStateNew !== geonameIdStateOld && <CitySelect geonameIdState={ geonameIdStateNew } /> }
+                    </div>
+                </form>
             </div>
-        );
+
+        )
     }
 
 }
